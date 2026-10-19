@@ -3,7 +3,7 @@ JAVA := java
 
 SRC_DIR := src
 OUT_DIR := out
-MAIN_CLASS := Main
+MAIN_CLASS := ringkv.NodeMain
 
 SOURCES := $(shell find $(SRC_DIR) -type f -name '*.java')
 STAMP := $(OUT_DIR)/.compiled
