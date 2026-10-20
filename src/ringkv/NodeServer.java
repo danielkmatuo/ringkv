@@ -58,17 +58,16 @@ public class NodeServer {
     }
 
     public void run() {
-        Scanner scan = new Scanner(System.in);
         String msg = "";
 
         while (!msg.equals("stop")) {
-            msg = scan.nextLine();
-
             try { 
-                for (int i = 0; i < this.dataMap.size(); i++) {
-                    if () {
-                        
-                    }
+                for (int i = 0; i < this.sockets.size(); i++) {
+                    this.in = new DataInputStream(this.sockets.get(i).getInputStream());
+                    msg = this.in.readUTF();
+
+                    String[] parsed = parseMessage(msg);
+                    execCmd(parsed);
                 }
             }
             catch (IOException ex) {
@@ -76,6 +75,8 @@ public class NodeServer {
                 System.out.println(ex);
             }
         }
+
+        System.out.println("Terminating server...");
     }
 
     public void stop() {
@@ -121,6 +122,7 @@ public class NodeServer {
     }
 
     //TODO: find a way to check which client is the one sending a command
+    //This should be done later, when concurrency is in play
     private boolean checkClientSequence(String msg) {
         HashMap<String, String> cloneMap = (HashMap<String, String>) this.dataMap.clone();
         String[] parsed = parseMessage(msg); 
